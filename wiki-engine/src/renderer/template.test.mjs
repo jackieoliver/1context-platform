@@ -1,0 +1,94 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+
+import { renderShell } from './template.mjs';
+
+test('article width defaults to medium unless a page opts into another width', () => {
+  const defaultHtml = renderShell({
+    frontmatter: {
+      title: 'Dogfood Operations',
+      slug: 'dogfood-operations',
+      summary: 'Operational wiki page',
+      access: 'private',
+    },
+    bodyHtml: '<p>hello</p>',
+    tocHtml: '<nav class="opctx-toc" aria-label="Contents"></nav>',
+  });
+  const narrowHtml = renderShell({
+    frontmatter: {
+      title: 'Narrow Note',
+      slug: 'narrow-note',
+      summary: 'Short note',
+      access: 'private',
+      article_width: 's',
+    },
+    bodyHtml: '<p>hello</p>',
+    tocHtml: '<nav class="opctx-toc" aria-label="Contents"></nav>',
+  });
+
+  assert.match(defaultHtml, /data-article-width="m"/);
+  assert.match(narrowHtml, /data-article-width="s"/);
+});
+
+test('pages without a table of contents use the one-column article layout', () => {
+  const html = renderShell({
+    frontmatter: {
+      title: 'Short Project',
+      slug: 'short-project',
+      summary: 'No headings yet',
+      access: 'private',
+    },
+    bodyHtml: '<p>hello</p>',
+    tocHtml: '',
+  });
+
+  assert.match(html, /class="opctx-layout opctx-layout--no-toc"/);
+  assert.doesNotMatch(html, /<nav class="opctx-toc"/);
+});
+
+test('family pages render the Era selector as a custom pill menu', () => {
+  const html = renderShell({
+    frontmatter: {
+      title: 'For You · Example user · Sunday, April 26, 2026',
+      slug: 'for-you-2026-04-26',
+      summary: 'Rolling daily brief',
+      access: 'public',
+    },
+    bodyHtml: '<p>hello</p>',
+    tocHtml: '<nav class="opctx-toc" aria-label="Contents"><ol><li><a href="#x">X</a></li></ol></nav>',
+  });
+
+  assert.match(html, /class="opctx-pill-menu-toggle opctx-version-toggle"/);
+  assert.match(html, /id="opctx-version-menu"/);
+  assert.doesNotMatch(html, /<select[^>]+id="opctx-version-menu"/);
+  assert.doesNotMatch(html, /opctx-version-select-chevron/);
+});
+
+test('audience pages render a single-pill menu plus share modal shell', () => {
+  const html = renderShell({
+    frontmatter: {
+      title: 'For You · Example user · Sunday, April 26, 2026',
+      slug: 'for-you-2026-04-26',
+      summary: 'Rolling daily brief',
+      access: 'public',
+    },
+    bodyHtml: '<p>hello</p>',
+    tocHtml: '<nav class="opctx-toc" aria-label="Contents"></nav>',
+    audienceStreams: {
+      active: 'public',
+      order: ['private', 'internal', 'public'],
+      streams: {
+        private: { url: 'for-you-2026-04-26.private.html' },
+        internal: { url: 'for-you-2026-04-26.internal.html' },
+        public: { url: 'for-you-2026-04-26.html' },
+      },
+    },
+    activeAudienceStream: 'public',
+  });
+
+  assert.match(html, /class="opctx-pill-menu-toggle opctx-audience-switcher-toggle"/);
+  assert.match(html, /data-audience-action="share"/);
+  assert.match(html, /opctx-share-modal-scrim/);
+  assert.doesNotMatch(html, /role="radiogroup"/);
+  assert.doesNotMatch(html, /opctx-audience-switcher-option/);
+});

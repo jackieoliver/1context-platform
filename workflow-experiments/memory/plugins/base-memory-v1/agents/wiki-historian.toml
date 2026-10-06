@@ -1,0 +1,18 @@
+id = "wiki-historian"
+version = "0.1.0"
+harness = "claude-code"
+provider = "claude"
+model = "opus"
+tools = []
+prompt_paths = ["prompts/agent-profile.md"]
+reference_paths = ["prompts/historian.md", "prompts/for-you-talk-conventions.md"]
+experience = []
+
+[memory]
+mode = "runtime_lived_experience"
+attach = "new"
+
+[runtime]
+isolation = "account_clean"
+subscription_compatible = true
+notes = "Reads routed day talk entries/source packet and posts historian entries; raw events are escalation only."

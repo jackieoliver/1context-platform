@@ -1,0 +1,22 @@
+id = "context-curator"
+version = "0.1.0"
+harness = "claude-code"
+provider = "claude"
+model = "opus"
+tools = []
+prompt_paths = ["prompts/agent-profile.md"]
+reference_paths = [
+  "prompts/context-curator.md",
+  "prompts/your-context-talk-conventions.md",
+  "prompts/operator-touched-convention.md",
+]
+experience = []
+
+[memory]
+mode = "runtime_lived_experience"
+attach = "new"
+
+[runtime]
+isolation = "account_clean"
+subscription_compatible = true
+notes = "Mutates only Your Context sections granted by the route; operator-touched markers are hard boundaries."

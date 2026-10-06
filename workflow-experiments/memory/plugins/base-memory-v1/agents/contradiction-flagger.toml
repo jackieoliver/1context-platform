@@ -1,0 +1,18 @@
+id = "contradiction-flagger"
+version = "0.1.0"
+harness = "claude-code"
+provider = "claude"
+model = "opus"
+tools = []
+prompt_paths = ["prompts/agent-profile.md"]
+reference_paths = ["prompts/contradiction-flagger.md"]
+experience = []
+
+[memory]
+mode = "runtime_lived_experience"
+attach = "new"
+
+[runtime]
+isolation = "account_clean"
+subscription_compatible = true
+notes = "Flags contradictions from routed reference sets; never mutates articles or resolves by editing."

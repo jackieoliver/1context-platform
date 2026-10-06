@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://1context.local/schemas/wiki-engine/route-manifest.schema.json",
+  "title": "1Context Wiki Route Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "output",
+    "route_count",
+    "routes",
+    "assets"
+  ],
+  "properties": {
+    "schema_version": { "const": "wiki.route-manifest.v1" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "output": { "type": "string", "minLength": 1 },
+    "route_count": { "type": "integer", "minimum": 0 },
+    "routes": {
+      "type": "array",
+      "items": { "$ref": "page-result.schema.json" }
+    },
+    "assets": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "reference_index": {
+      "type": "object",
+      "required": ["path", "reference_count", "asset_count", "link_count", "code_block_count", "citation_count"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "reference_count": { "type": "integer", "minimum": 0 },
+        "asset_count": { "type": "integer", "minimum": 0 },
+        "link_count": { "type": "integer", "minimum": 0 },
+        "code_block_count": { "type": "integer", "minimum": 0 },
+        "citation_count": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

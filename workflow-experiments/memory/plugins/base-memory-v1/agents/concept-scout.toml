@@ -1,0 +1,18 @@
+id = "concept-scout"
+version = "0.1.0"
+harness = "claude-code"
+provider = "claude"
+model = "opus"
+tools = []
+prompt_paths = ["prompts/concept-scout.md"]
+reference_paths = ["prompts/concept-scout-task.md"]
+experience = []
+
+[memory]
+mode = "runtime_lived_experience"
+attach = "new"
+
+[runtime]
+isolation = "account_clean"
+subscription_compatible = true
+notes = "Reads routed talk-folder context and writes concept-candidate proposals only."

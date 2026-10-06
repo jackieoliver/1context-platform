@@ -1,0 +1,18 @@
+id = "hourly-answerer"
+version = "0.1.0"
+harness = "claude-code"
+provider = "claude"
+model = "opus"
+tools = []
+prompt_paths = ["prompts/agent-profile.md"]
+reference_paths = ["prompts/hourly-answerer.md", "prompts/for-you-talk-conventions.md"]
+experience = []
+
+[memory]
+mode = "runtime_lived_experience"
+attach = "new"
+
+[runtime]
+isolation = "account_clean"
+subscription_compatible = true
+notes = "Answers one historian question from parent entry, question, and loaded hour experience; may request wider window."

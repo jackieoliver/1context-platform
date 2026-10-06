@@ -1,0 +1,18 @@
+id = "daily-editor"
+version = "0.1.0"
+harness = "claude-code"
+provider = "claude"
+model = "opus"
+tools = []
+prompt_paths = ["prompts/daily-editor.md"]
+reference_paths = ["prompts/daily-editor-task.md"]
+experience = []
+
+[memory]
+mode = "runtime_lived_experience"
+attach = "new"
+
+[runtime]
+isolation = "account_clean"
+subscription_compatible = true
+notes = "Writes one proposal from routed talk-folder context; article mutation belongs to the curator."

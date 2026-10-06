@@ -1,0 +1,6 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Synthetic agent-mail idempotency key, not an authentication secret"
+regexes = ['topics-curator-001']
